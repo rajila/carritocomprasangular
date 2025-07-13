@@ -1,0 +1,30 @@
+<div class="container content-page">
+    <div class="py-3 mt-1" style="width: 85%;">
+        <div class="text-center"><h5>Mi Cesta</h5></div>
+        <div *ngIf="datosList.length > 0" id="siCesta">
+          <div id="details-cart" class="car-items mt-5">
+            <section *ngFor="let data of datosList" class="car-item row d-flex">
+                <div class="col-md-2 col-sm-4 col-3">
+                    <img id="img-1" [src]="data.producto.imagen" [alt]="data.producto.nombre" class="card-img-cart" />
+                </div>
+                <div class="col-md-10 col-sm-8 col-9">
+                    <h5 class="card-title">{{data.producto.nombre}}</h5>
+                    <p class="card-text">Cantidad: <span id="cant-cart-1">{{data.cantidad}}</span>
+                    </p>
+                    <p class="card-text text-end"><span id="total-cart-1">{{data.total}}</span> €</p>
+                    <div class="text-end">
+                        <input class="btn btn-danger " type="button" value="Eliminar" (click)="handleDeleteCart(data.producto.id)" />
+                    </div>
+                </div>
+            </section>
+          </div>
+          <div class="car-items mt-3 text-end">
+            <b>Total: </b> {{total}} €
+          </div>
+          <div class="car-items mt-3 text-center">
+            <button data-bs-toggle="modal" data-bs-target="#modalPagar" data-bs-whatever="@mdo" class="btn btn-primary" id="btn-pagar" (click)="handlePagar()">Realizar pedido</button>
+          </div>
+        </div>
+        <div *ngIf="datosList.length === 0" id="noCesta" class="showElement text-center mt-5">Cesta vacía!!</div>
+      </div>
+</div>

@@ -1,1 +1,93 @@
-<p>producto works!</p>
+<div class="container content-page">
+    <div class="col c-listado">
+        <h3>Listado de Productos</h3>
+        <div class="text-end">
+            <button (click)="fnShowForm()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm" data-bs-whatever="@mdo">Nuevo</button>
+        </div>
+
+        <div *ngIf="showForm">
+            <div class="box-con-borde">
+              <div class="legend-simulada">Información</div>
+              <div class="contenido">
+                <form id="formData" (ngSubmit)="handleGuardar()" #form="ngForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="recipient-codigo" class="col-form-label">Código <span class="text-danger">*</span></label>
+                            <input type="hidden" id="idData" />
+                            <input name="codigo" [(ngModel)]="codigo" type="text" disabled class="form-control" id="txtCodigo" placeholder="Ingresar Código">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="recipient-name" class="col-form-label">Nombre <span class="text-danger">*</span></label>
+                            <input name="nombre" [(ngModel)]="nombre" type="text" class="form-control" id="txtNombre" placeholder="Ingresar Nombre">
+                        </div>
+                        <div class="col-md-4">
+                        <label for="recipient-name" class="col-form-label">Categoria <span class="text-danger">*</span></label>
+                        <select name="idCategoria" [(ngModel)]="idCategoria" class="form-control" id="txtCategoria">
+                            <option value="0">Seleccionar Categoria</option>
+                            <option *ngFor="let data of categorias" [value]="data.id">{{data.nombre}}</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                     <div class="row">
+                        <div class="col-md-4">
+                            <label for="recipient-name" class="col-form-label">Precio <span class="text-danger">*</span></label>
+                            <input name="precio" [(ngModel)]="precio" type="number" class="form-control" id="txtPrecio" placeholder="Ingresar Precio">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="recipient-stock" class="col-form-label">Stock <span class="text-danger">*</span></label>
+                            <input name="stock" [(ngModel)]="stock" type="number" class="form-control" id="txtStock" placeholder="Ingresar Stock">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="recipient-imagen" class="col-form-label">Imagen <span class="text-danger">*</span></label>
+                            <input type="hidden" class="form-control" id="txtImagenB64" />
+                            <img class="hideElement imgForm" id="imagenB64" [src]="imagenB64"  />
+                            <input (change)="onFileSelected($event)" type="file" class="form-control" id="txtImagen">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="recipient-descripcion" class="col-form-label">Descripción <span class="text-danger">*</span></label>
+                        <textarea name="descripcion" [(ngModel)]="descripcion" class="form-control" placeholder="Descripción del producto" id="txtDescripcion"></textarea>
+                    </div>
+                    <div class="form-footer d-flex justify-content-center gap-2 py-2">
+                    <button type="button" class="btn btn-secondary" (click)="fnHideForm()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Código</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col" class="col-auto" sec:authorize="hasAuthority('ADMIN')">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of datosList">
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.codigo }}</td>
+                    <td>{{ data.nombre }}</td>
+                    <td>{{ fnGetNameCategoria(data.idCategoria) }}</td>
+                    <td>{{ data.precio }}</td>
+                    <td>{{ data.stock }}</td>
+                    <td class="text-end">
+                      <input class="btn btn-primary" type="button" value="Editar" (click)="fnEdit(data.id)" />
+                      &nbsp;<input *ngIf="fnOnCart(data.id) === true" class="btn btn-danger " type="button" value="Eliminar" (click)="handleDelete(data.id)" />
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
